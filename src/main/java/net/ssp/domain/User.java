@@ -12,18 +12,23 @@ public class User
 	@GeneratedValue // auto increasement
 	private Long id;
 	
-	@Column(nullable=false, length=20) // default true, 
+	@Column(nullable=false, length=20, unique=true) // default true, 
 	private String userId;
 	
 	private String password;
 	private String name;
 	private String email;
 
+	public Long getId()
+	{
+		return id;
+	}
+	
 	public void setUserId(String userId)
 	{
 		this.userId = userId;
 	}
-
+	
 	public void setPassword(String password)
 	{
 		this.password = password;
