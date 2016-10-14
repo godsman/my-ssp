@@ -76,31 +76,30 @@ public class UserController
 	
 	@GetMapping("/{id}/form")
 	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
-		Object tempUser = session.getAttribute("sessionedUser");
-		if (tempUser == null) {
+		Object tempUser = session.getAttribute(HttpSessionUtils.USER_SESSION_KEY);
+		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "redirect:/users/loginForm";
 		}
 		
-		User sessionedUser = (User)tempUser;
-		if (!id.equals(sessionedUser.getId())) {
+		User sessionedUser = HttpSessionUtils.getUserFromSession(session);
+		if (!sessionedUser.matchId(id)) {
 			throw new IllegalStateException("자신의 정보만 수정할 수 있습니다.");
 		}
 		
-//		User user = userRepository.findOne(id);
-		User user = userRepository.findOne(sessionedUser.getId());
+		User user = userRepository.findOne(id);
 		model.addAttribute("user", user);
 		return "/user/updateForm";
 	}
 
 	@PutMapping("/{id}") //<input type="hidden" name="_method" value="put"/>
 	public String update(@PathVariable Long id, User updatedUser, HttpSession session) {
-		Object tempUser = session.getAttribute("sessionedUser");
-		if (tempUser == null) {
+		Object tempUser = session.getAttribute(HttpSessionUtils.USER_SESSION_KEY);
+		if (!HttpSessionUtils.isLoginUser(session)) {
 			return "redirect:/users/loginForm";
 		}
 
-		User sessionedUser = (User)tempUser;
-		if (!id.equals(sessionedUser.getId())) {
+		User sessionedUser = HttpSessionUtils.getUserFromSession(session);
+		if (!sessionedUser.matchId(id)) {
 			throw new IllegalStateException("자신의 정보만 수정할 수 있습니다.");
 		}
 
