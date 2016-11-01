@@ -26,10 +26,35 @@ function onError() {
 function onSuccess(data, status) {
 	console.log(data);
 	var answerTemplate = $("#answerTemplate").html();
-	var template = answerTemplate.format(data.writer.userId, data.contents, data.id, data.id)
+	var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.question.id, data.id)
 	$(".qna-comment-slipp-articles").prepend(template);
 	
 	$("textarea[name=contents]").val("");
+}
+
+$(".link-delete-article").click(deleteAnswer);
+
+function deleteAnswer(e) {
+	e.preventDefault();
+	
+	var deleteBtn = $(this); //this가 호출되는 위치에 따라 바뀐다
+	var url = $(this).attr("href");
+	console.log("URL: " + url);
+	
+	$.ajax({
+		type : 'delete',
+		url : url,
+		dataType : 'json',
+		error : function (xhr, status) {
+			console.log("error");
+		},
+		success : function (data, status) {
+			console.log(data);
+			if (data.valid) {
+				deleteBtn.closest("article").remove(); // 가장 가까운 아티클 삭제
+			}
+		}
+	});
 }
 
 String.prototype.format = function() {
