@@ -5,18 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity 
 public class User
 {
 	@Id //primary key
 	@GeneratedValue // auto increasement
+	@JsonProperty
 	private Long id;
 	
 	@Column(nullable=false, length=20, unique=true) // default true, 
+	@JsonProperty
 	private String userId;
 	
 	private String password;
+
+	@JsonProperty
 	private String name;
+
+	@JsonProperty
 	private String email;
 
 	public boolean matchId(Long newId) {
