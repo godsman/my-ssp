@@ -36,6 +36,9 @@ public class Question
 	@JsonProperty
 	private String contents;
 	
+	@JsonProperty
+	private Integer countOfAnswer = 0;
+	
 	private LocalDateTime createDate;
 	
 	@OneToMany(mappedBy="question")
@@ -69,5 +72,15 @@ public class Question
 	public boolean isSameWriter(User loginUser)
 	{
 		return this.writer.equals(loginUser);
+	}
+
+	public void addAnswer()
+	{
+		this.countOfAnswer += 1;
+		
+	}
+	public void deleteAnswer()
+	{
+		this.countOfAnswer -= 1;
 	}
 }
