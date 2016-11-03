@@ -8,13 +8,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity 
-public class User
-{
-	@Id //primary key
-	@GeneratedValue // auto increasement
-	@JsonProperty
-	private Long id;
-	
+public class User extends AbstractEntity {
 	@Column(nullable=false, length=20, unique=true) // default true, 
 	@JsonProperty
 	private String userId;
@@ -32,7 +26,7 @@ public class User
 			return false;
 		}
 		
-		return newId.equals(id);
+		return newId.equals(getId());
 	}
 	
 	public String getUserId() {
@@ -74,7 +68,7 @@ public class User
 	@Override
 	public String toString()
 	{
-		return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+		return "User [" + super.toString() + ", password=" + password + ", name=" + name + ", email=" + email + "]";
 	}
 
 	public void update(User newUser)
@@ -90,7 +84,7 @@ public class User
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -101,11 +95,11 @@ public class User
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
 		User other = (User) obj;
-		if (id == null)
+		if (getId() == null)
 		{
-			if (other.id != null) return false;
+			if (other.getId() != null) return false;
 		}
-		else if (!id.equals(other.id)) return false;
+		else if (!getId().equals(other.getId())) return false;
 		return true;
 	}
 	
